@@ -1,4 +1,4 @@
-# A demo set up to test kubernetes deployment.
+# A sample set up to test app deployment on kubernetes.
 
 Salient features of app are as follows ;
 
@@ -11,7 +11,7 @@ Salient features of app are as follows ;
 
 ## How to interact with apps.
 
-- Prerequisites : Java17 , docker, curl, docker-compose, colima , jq
+- Prerequisites : Java17 , docker, curl, docker-compose, colima/docker desktop & jq.
 - Clone the repository on local machine.
 ```html
 $ cd <path_to_project_dir>/kubernetes-demo
@@ -31,3 +31,7 @@ $ curl -X GET http://localhost:8080/customers/4 | jq
 $ curl -X GET http://localhost:8080/customers | jq
 ```
 ![img_2.png](images/img_2.png)
+```html
+$ curl -X GET http://localhost:9001/ | jq
+```
+![img.png](images/img_3.png)
