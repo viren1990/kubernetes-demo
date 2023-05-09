@@ -26,12 +26,14 @@ public class OrdersApplication {
     @Bean
     ApplicationRunner sampleDataInitializer(OrderRepository orderRepository) {
         return args -> Flux.just(Pair.of(1, "10kg Fortune Wheat Flour"), Pair.of(2, "200g Emami Bath Soap"),
-                        Pair.of(3, "2kg Safeda Mango"), Pair.of(4, "250g, Bru Coffee"), Pair.of(5, "250g Tata Tea"),
+                        Pair.of(3, "2kg Safeda Mango"), Pair.of(4, "250g, Bru Coffee"),
+                        Pair.of(4, "500g, Nirma Detergent"),
+                        Pair.of(5, "250g Tata Tea"),
                         Pair.of(6, "1kg Toor Dal"), Pair.of(7, "1/2kg Carrot"))
                 .map(pair -> new Order(null, pair.getFirst(), pair.getSecond()))
                 .concatMap(orderRepository::save)
                 .thenMany(orderRepository.findAll())
-                .subscribe(System.out::println);
+                .subscribe();
 
     }
 
@@ -48,19 +50,19 @@ class OrderController {
     private final OrderRepository orderRepository;
 
 
-    @GetMapping("/customer-orders/{customer-id}")
-    Flux<Order> getOrderByCustomerId(@PathVariable("customer-id") int customerId) {
-        return orderRepository.findAlByCustomerId(customerId);
-    }
-
-
-    @GetMapping("/orders")
+    @GetMapping("/")
     Flux<Order> getAllOrders() {
         return orderRepository.findAll();
     }
 
 
-    @GetMapping("/orders/{order-id}")
+    @GetMapping("/customers/{customer-id}")
+    Flux<Order> getCustomerOrders(@PathVariable("customer-id") int customerId) {
+        return orderRepository.findAlByCustomerId(customerId);
+    }
+
+
+    @GetMapping("/{order-id}")
     Flux<Order> getOrderById(@PathVariable("order-id") int orderId) {
         return orderRepository.findAllById(List.of(orderId));
     }
