@@ -77,4 +77,4 @@ http://192.168.64.2:31522
 ```
 - Verify the customers service health by accessing http://192.168.64.2:31522/actuator/health
 - Validate aforementioned customers APIs results. 
-- Since orders service is not exposed to the public ,therefore remain inaccessible.
+- Since orders service is not exposed to the public ,therefore remains inaccessible.
