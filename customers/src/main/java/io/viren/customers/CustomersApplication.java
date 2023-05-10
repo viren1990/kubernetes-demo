@@ -17,6 +17,7 @@ import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.server.ResponseStatusException;
@@ -24,11 +25,15 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.netty.http.client.HttpClient;
 
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import static io.netty.channel.ChannelOption.CONNECT_TIMEOUT_MILLIS;
+import static java.lang.Long.valueOf;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.springframework.http.HttpStatusCode.valueOf;
+import static reactor.core.publisher.Mono.error;
 
 @SpringBootApplication
 public class CustomersApplication {
@@ -75,13 +80,18 @@ class CustomerController {
 
 
     @GetMapping("/customers/{customer-id}")
-    Mono<CustomerResponseDto> getCustomerById(@PathVariable("customer-id") int customerId) {
-        return this.orderService.getCustomerOrders(customerId)
-                .collectList()
-                .flatMap(orders -> this.customerRepository.findById(customerId)
-                        .map(customer -> new CustomerResponseDto(customer, orders)))
-                .doOnError(error -> log.error(error.getMessage(), error))
-                .onErrorResume(error -> Mono.error(new ResponseStatusException(valueOf(500), "unexpected failure.")));
+    Mono<CustomerResponseDto> getCustomerById(@PathVariable("customer-id") int customerId,
+                                              @RequestParam(defaultValue = "0") String delayInMs) {
+
+        return Mono.delay(Duration.of(valueOf(delayInMs), ChronoUnit.MILLIS))
+                .then(Mono.defer(() -> this.customerRepository.findById(customerId)
+                        .switchIfEmpty(error(new ResponseStatusException(valueOf(400), "Supply valid customer id.")))
+                        .flatMap(customer -> this.orderService.getCustomerOrders(customerId)
+                                .collectList()
+                                .map(orders -> new CustomerResponseDto(customer, orders))
+                                .doOnError(error -> log.error(error.getMessage(), error))
+                                .onErrorResume(error -> error(
+                                        new ResponseStatusException(valueOf(500), "unexpected failure."))))));
 
     }
 
