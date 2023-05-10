@@ -13,6 +13,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -53,6 +55,21 @@ public class CustomersApplication {
 record Customer(@Id Integer id, String name) {
 }
 
+
+@RestController
+class MyController {
+
+    @GetMapping("/error")
+    public ResponseEntity<String> handleRequest() {
+        try {
+
+            throw new Exception("Internal server error occurred");
+        } catch (Exception e) {
+            // Catch the exception and return a ResponseEntity with a 500 status code
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error");
+        }
+    }
+}
 
 @RestController
 class CustomerController {

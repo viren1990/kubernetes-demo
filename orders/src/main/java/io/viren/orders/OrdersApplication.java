@@ -8,11 +8,12 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import org.springframework.data.util.Pair;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
-
+import org.springframework.http.HttpStatus;
 import java.util.List;
 
 @SpringBootApplication
@@ -39,6 +40,20 @@ public class OrdersApplication {
 
 }
 
+@RestController
+class MyController {
+
+    @GetMapping("/error")
+    public ResponseEntity<String> handleRequest() {
+        try {
+
+            throw new Exception("Internal server error occurred");
+        } catch (Exception e) {
+            // Catch the exception and return a ResponseEntity with a 500 status code
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error");
+        }
+    }
+}
 
 @RestController
 class OrderController {
