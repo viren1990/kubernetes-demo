@@ -5,14 +5,14 @@ services:
       context: orders
       dockerfile: ./Dockerfile
     ports:
-      - 9001:9001
+      - "9001:9001"
 
   customers-service:
     build:
       context: customers
       dockerfile: ./Dockerfile
     ports:
-      - 8080:8080
+      - "8080:8080"
     environment:
       - ORDERS_SERVICE_BASE_PATH=http://orders-service:9001
     depends_on:
