@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: customers
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: customers
+  template:
+    metadata:
+      labels:
+        app: customers
+    spec:
+      containers:
+        - name: app
+          image: viren1990/customers:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: ORDERS_SERVICE_BASE_PATH
+              value: http://orders:9001
+          imagePullPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: customers
+spec:
+  selector:
+    app: customers
+  ports:
+    - port: 80
+      targetPort: 8080
+  type: LoadBalancer
