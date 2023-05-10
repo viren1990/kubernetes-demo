@@ -49,6 +49,10 @@ class OrderController {
 
     private final OrderRepository orderRepository;
 
+    @GetMapping("/health")
+    void healthEndpoint(){
+
+    }
 
     @GetMapping("/")
     Flux<Order> getAllOrders() {

@@ -67,6 +67,11 @@ class CustomerController {
         this.orderService = orderService;
     }
 
+    @GetMapping("/health")
+    void healthEndpoint(){
+
+    }
+
 
     @GetMapping("/customers")
     Flux<Customer> getCustomers() {
