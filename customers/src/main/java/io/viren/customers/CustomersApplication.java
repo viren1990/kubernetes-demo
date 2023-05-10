@@ -26,11 +26,11 @@ import reactor.core.publisher.Mono;
 import reactor.netty.http.client.HttpClient;
 
 import java.time.Duration;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import static io.netty.channel.ChannelOption.CONNECT_TIMEOUT_MILLIS;
-import static java.lang.Long.valueOf;
+import static java.lang.Long.parseLong;
+import static java.time.temporal.ChronoUnit.MILLIS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.springframework.http.HttpStatusCode.valueOf;
 import static reactor.core.publisher.Mono.error;
@@ -83,7 +83,7 @@ class CustomerController {
     Mono<CustomerResponseDto> getCustomerById(@PathVariable("customer-id") int customerId,
                                               @RequestParam(defaultValue = "0") String delayInMs) {
 
-        return Mono.delay(Duration.of(valueOf(delayInMs), ChronoUnit.MILLIS))
+        return Mono.delay(Duration.of(parseLong(delayInMs), MILLIS))
                 .then(Mono.defer(() -> this.customerRepository.findById(customerId)
                         .switchIfEmpty(error(new ResponseStatusException(valueOf(400), "Supply valid customer id.")))
                         .flatMap(customer -> this.orderService.getCustomerOrders(customerId)
