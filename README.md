@@ -36,6 +36,44 @@ $ curl -X GET http://localhost:9001/ | jq
 ```
 ![img.png](images/img_3.png)
 
+- Manufacture delay
+```html
+$ curl --location 'http://localhost:8080/customers/4?delayInMs=5000' | jq
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100   135  100   135    0     0    131      0  0:00:01  0:00:01 --:--:--   132
+{
+  "customer": {
+    "id": 4,
+    "name": "Hari"
+  },
+  "orders": [
+    {
+      "id": 4,
+      "productName": "250g, Bru Coffee"
+    },
+    {
+      "id": 5,
+      "productName": "500g, Nirma Detergent"
+    }
+  ]
+}
+```
+- Manufacture failure
+```html
+$ curl --location 'http://localhost:8080/customers/8' | jq               
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  2006  100  2006    0     0  19736      0 --:--:-- --:--:-- --:--:-- 21569
+{
+  "timestamp": "2023-05-10T16:56:43.562+00:00",
+  "path": "/customers/8",
+  "status": 400,
+  "error": "Bad Request",
+  "message": "Supply valid customer id.",
+  "requestId": "a149a881-16"
+}
+```
 ## Kubernetes Deployment
 
 - On local - Prerequisites: minikube, kubectl
