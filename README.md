@@ -73,6 +73,19 @@ $ curl --location 'http://localhost:8080/customers/8' | jq
   "message": "Supply valid customer id.",
   "requestId": "a149a881-16"
 }
+
+$ curl -X POST http://localhost:8080/error/503 | jq
+% Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+Dload  Upload   Total   Spent    Left  Speed
+100 10148  100 10148    0     0  53518      0 --:--:-- --:--:-- --:--:-- 57011
+{
+"timestamp": "2023-05-11T06:43:21.872+00:00",
+"path": "/error/503",
+"status": 503,
+"error": "Service Unavailable",
+"message": null,
+"requestId": "d18c4628-1"
+}
 ```
 ## Kubernetes Deployment
 
