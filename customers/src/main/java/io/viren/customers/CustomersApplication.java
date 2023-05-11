@@ -17,6 +17,7 @@ import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -27,6 +28,7 @@ import reactor.netty.http.client.HttpClient;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.Optional;
 
 import static io.netty.channel.ChannelOption.CONNECT_TIMEOUT_MILLIS;
 import static java.lang.Long.parseLong;
@@ -76,6 +78,14 @@ class CustomerController {
     @GetMapping("/customers")
     Flux<Customer> getCustomers() {
         return this.customerRepository.findAll();
+    }
+
+
+    @PostMapping(value = {"/error/{http-code}", "/error"})
+    Mono<Void> createFailure(@PathVariable("http-code") Optional<String> httpCode) {
+        return httpCode.map(code -> Mono.error(new ResponseStatusException(valueOf(Integer.parseInt(code)))))
+                .orElse(Mono.error(new ResponseStatusException(valueOf(500))))
+                .then();
     }
 
 
