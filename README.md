@@ -228,10 +228,10 @@ tracking-service-5f564d6f77-fst7h   2/2     Running   2 (29m ago)  48m    10.244
 - Validate service instances for customers, tracking & orders pods.
 ```html
 $ kubectl get svc
-NAME          TYPE           CLUSTER-IP       EXTERNAL-IP     PORT(S)        AGE
-customers     LoadBalancer   10.98.243.74     192.168.64.11   80:31522/TCP   38m
-orders        ClusterIP      10.100.59.251    <none>          9001/TCP       38m 
-tracking-service   ClusterIP      10.105.154.31    <none>          9002/TCP       49m
+NAME               TYPE           CLUSTER-IP       EXTERNAL-IP     PORT(S)        AGE
+customers         LoadBalancer   10.98.243.74     192.168.64.11   80:31522/TCP   38m
+orders            ClusterIP      10.100.59.251    <none>          9001/TCP       38m 
+tracking-service  ClusterIP      10.105.154.31    <none>          9002/TCP       49m
 ```
 - Mind the service type for customers service, A LoadBalancer type.
 - Get the URL for customers service.
