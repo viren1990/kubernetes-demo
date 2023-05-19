@@ -1,11 +1,22 @@
 version: "3.8"
 services:
+  tracking-service:
+    build:
+      context: tracking-service
+      dockerfile: ./Dockerfile
+    ports:
+      - "9002:9002"
+
   orders-service:
     build:
       context: orders
       dockerfile: ./Dockerfile
     ports:
       - "9001:9001"
+    environment:
+      - TRACKING_SERVICE_BASE_URL=http://tracking-service:9002
+    depends_on:
+      - tracking-service
 
   customers-service:
     build:

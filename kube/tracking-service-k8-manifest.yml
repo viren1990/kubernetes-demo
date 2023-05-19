@@ -1,34 +1,31 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: orders
+  name: tracking-service
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: orders
+      app: tracking-service
   template:
     metadata:
       labels:
-        app: orders
+        app: tracking-service
     spec:
       containers:
         - name: app
-          image: viren1990/orders:latest
+          image: viren1990/tracking-service:latest
           ports:
-            - containerPort: 9001
-          env:
-            - name: TRACKING_SERVICE_BASE_URL
-              value: http://tracking-service:9002
+            - containerPort: 9002
           imagePullPolicy: Always
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: orders
+  name: tracking-service
 spec:
   selector:
-    app: orders
+    app: tracking-service
   ports:
-    - port: 9001
+    - port: 9002
       name: http

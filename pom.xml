@@ -11,5 +11,6 @@
   <modules>
     <module>customers</module>
     <module>orders</module>
+    <module>tracking-service</module>
   </modules>
 </project>
