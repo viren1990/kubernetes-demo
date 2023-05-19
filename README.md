@@ -147,7 +147,8 @@ $ curl --location 'http://localhost:8080/customers/4?emulateDelay=yes&delayInMs=
 ```
 ```json
 % Total % Received % Xferd Average Speed Time Time Time Current Dload Speed Upload Total Spent Left Speed
-100 317 100 317 0 0 59 0 0: 00: 05 0: 00: 05--: --: --102 {
+100 317 100 317 0 0 59 0 0: 00: 05 0: 00: 05--: --: --102
+{
 "customer": {
 "id": 4,
 "name": "Hari"
@@ -215,10 +216,14 @@ kubeconfig: Configured
 ```html
 $ kubectl get pods -o wide
 
-NAME                             READY   STATUS    RESTARTS   AGE    IP            NODE       NOMINATED NODE   READINESS GATES
-customers-5ddb75b6f6-qxqng       2/2     Running   0          34m    10.244.0.17   minikube     <none>           <none>
-orders-75f7bd96d6-jxsh8          2/2     Running   0          34m    10.244.0.18   minikube     <none>           <none>
-tracking-service-5f564d6f77-fst7h   2/2     Running   2 (29m ago)   48m   10.244.0.55   minikube   <none>           <none>
+NAME                               READY   STATUS    RESTARTS     AGE        IP            NODE       NOMINATED NODE 
+READINESS GATES
+customers-5ddb75b6f6-qxqng          2/2     Running   0            34m    10.244.0.17   minikube     <none>      
+<none>
+orders-75f7bd96d6-jxsh8             2/2     Running   0            34m    10.244.0.18   minikube     <none>           
+<none>
+tracking-service-5f564d6f77-fst7h   2/2     Running   2 (29m ago)  48m    10.244.0.55   minikube     <none>           
+<none>
 ```
 - Validate service instances for customers, tracking & orders pods.
 ```html
