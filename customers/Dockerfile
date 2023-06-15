@@ -1,6 +1,4 @@
-ARG MVN_VERSION=3.8.3
-ARG JDK_VERSION=17
-
-FROM maven:${MVN_VERSION}-openjdk-${JDK_VERSION}
+FROM ubuntu:latest
+RUN apt-get update -y && apt-get install -y ttf-dejavu
 
 
