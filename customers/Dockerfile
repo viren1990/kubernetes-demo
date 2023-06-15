@@ -1,4 +1,4 @@
-FROM azul/zulu-openjdk:17-distroless-latest
+FROM mcr.microsoft.com/java/jdk:8u312-zulu-ubuntu
 RUN apt-get update -y && apt-get install -y ttf-dejavu
 
 
